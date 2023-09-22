@@ -2,11 +2,11 @@
 
 [![Nodl CI](https://github.com/emilwidlund/nodl/actions/workflows/main.yaml/badge.svg)](https://github.com/emilwidlund/nodl/actions/workflows/main.yaml)
 
-A framework for node-based applications. Leveraged by RxJS and Zod.
+A framework for node-based applications. Leveraged by RxJS.
 
-[View Demo](https://codesandbox.io/s/agitated-elgamal-txqqql?file=/src/App.js)
+[Documentation](https://usenodl.dev)
 
-![Visual representation of a nodl](assets/nodl.png?raw=true)
+![Visual representation of nodl](assets/nodl.png?raw=true)
 
 ## Packages
 
@@ -23,3 +23,9 @@ The core implementation of the Nodl framework. Exposes utilities and functions t
 A React implementation of the Nodl framework. Exposes components & utilities for rendering Nodl nodes & connections.
 
 [See package](packages/react)
+
+### @nodl/math
+
+A library of pre-defined math nodes ready for use.
+
+[See package](packages/math)

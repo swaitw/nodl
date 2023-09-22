@@ -33,9 +33,7 @@
         "husky": "^8.0.3"
     },
     "workspaces": [
-        "packages/core",
-        "packages/react",
-        "examples/react-example",
-        "examples/three-js-example"
+        "packages/*",
+        "examples/*"
     ]
 }

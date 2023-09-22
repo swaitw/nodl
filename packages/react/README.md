@@ -64,15 +64,7 @@ store.setNodes([
 ]);
 
 export const App = () => {
-    return (
-        <Circuit
-            store={store}
-            onConnection={connection => console.log('NEW CONNECTION', connection)}
-            onConnectionRemoval={connection => console.log('REMOVED CONNECTION', connection)}
-            onNodeRemoval={node => console.log('REMOVED NODE', node)}
-            onSelectionChanged={nodes => console.log('SELECTION CHANGED', nodes)}
-        />
-    );
+    return <Circuit store={store} />;
 };
 ```
 
@@ -107,6 +99,8 @@ import { z } from 'zod';
 const NumberSchema = schema(z.number());
 
 class Addition extends Node {
+    name = 'Addition';
+
     inputs = {
         a: new Input({ name: 'A', type: NumberSchema, defaultValue: 0 }),
         b: new Input({ name: 'B', type: NumberSchema, defaultValue: 0 })
@@ -141,14 +135,10 @@ store.setNodes([
 ]);
 
 export const App = () => {
-    return (
-        <Circuit
-            store={store}
-            onConnection={c => console.log('NEW CONNECTION', c)}
-            onConnectionRemoval={c => console.log('REMOVED CONNECTION', c)}
-            onNodeRemoval={n => console.log('REMOVED NODE', n)}
-            onSelectionChanged={s => console.log('SELECTION CHANGED', s)}
-        />
-    );
+    return <Circuit store={store} />;
 };
 ```
+
+### Disclaimer
+
+The React-package injects the Inter-typeface using a preconnect-link and stylesheet-link in the header when imported.

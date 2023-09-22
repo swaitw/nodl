@@ -1,6 +1,6 @@
 {
     "name": "@nodl/react",
-    "version": "1.0.1",
+    "version": "1.0.4",
     "description": "React implementation of the Nodl framework",
     "main": "build/index.js",
     "types": "build/index.d.ts",
@@ -11,8 +11,9 @@
         "build/*"
     ],
     "scripts": {
-        "build": "webpack --mode=development --devtool=inline-source-map",
+        "build": "webpack --mode=production --devtool=inline-source-map",
         "build:prod": "webpack --mode=production --devtool=source-map",
+        "generate:docs": "typedoc ./src/index.ts",
         "prepare": "yarn run build:prod",
         "test": "jest"
     },
@@ -26,8 +27,7 @@
     },
     "homepage": "https://github.com/emilwidlund/nodl#readme",
     "dependencies": {
-        "@emotion/react": "^11.10.6",
-        "@nodl/core": "^1.0.1",
+        "@nodl/core": "^1.0.9",
         "@types/lodash": "^4.14.191",
         "@types/react": "^18.0.26",
         "lodash": "^4.17.21",
@@ -50,6 +50,7 @@
         "jest-environment-jsdom": "^29.4.3",
         "ts-jest": "^29.0.3",
         "ts-loader": "^9.4.2",
+        "typedoc": "^0.23.26",
         "webpack": "^5.75.0",
         "webpack-cli": "^5.0.1"
     },

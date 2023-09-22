@@ -15,12 +15,16 @@ export class Connection<T> extends Subject<T> {
     /** Subscription */
     public subscription: Subscription;
 
+    /** Determines type compatibility */
+    public static isTypeCompatible<TFrom, TTo>(from: Output<TFrom>, to: Input<TTo>) {
+        return from.type.name === to.type.name;
+    }
+
     constructor(from: Output<T>, to: Input<T>) {
         super();
 
-        /** Check zod schema validators */
-        if (from.type.name !== to.type.name) {
-            throw new Error('Input type is incompatible with Output type');
+        if (!Connection.isTypeCompatible(from, to)) {
+            throw new Error('Connection origin & target has incompatible types');
         }
 
         if (to.connected) {
@@ -30,18 +34,18 @@ export class Connection<T> extends Subject<T> {
 
         this.from = from;
         this.to = to;
+        this.from.connections.push(this);
+        this.to.connection = this;
 
         this.subscription = this.from.subscribe(value => {
             try {
                 this.to.type.validator.parse(value);
                 this.to.next(value);
             } catch (err) {
+                this.dispose();
                 throw new Error('Received a value with an incompatible type');
             }
         });
-
-        this.from.connections.push(this);
-        this.to.connection = this;
 
         makeObservable(this, {
             id: observable,
@@ -55,7 +59,7 @@ export class Connection<T> extends Subject<T> {
     /** Disposes the Connection */
     public dispose() {
         this.unsubscribe();
-        this.subscription.unsubscribe();
+        this.subscription?.unsubscribe();
 
         this.from.connections = this.from.connections.filter(connection => connection !== this);
         this.to.connection = null;

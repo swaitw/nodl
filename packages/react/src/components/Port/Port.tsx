@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { Input, Output } from '@nodl/core';
+import { Connection, Input, Output } from '@nodl/core';
 import { observer } from 'mobx-react-lite';
 import * as React from 'react';
 
@@ -10,17 +10,16 @@ import { TooltipPosition } from '../Tooltip/Tooltip.types';
 import { portTypeStyles, portWrapperStyles } from './Port.styles';
 import { PortProps } from './Port.types';
 
-export const Port = observer(<T,>({ port }: PortProps<T>) => {
+export const Port = observer(<T,>({ port, isOutput }: PortProps<T>) => {
     const ref = React.useRef<HTMLDivElement>(null);
     const { onMouseEnter, onMouseLeave, isHovered } = useHover();
     const { onMouseEnter: onPortTypeEnter, onMouseLeave: onPortTypeLeave, isHovered: isPortTypeHovered } = useHover();
     const { store } = React.useContext(StoreContext);
 
-    const isOutput = React.useMemo(() => port.constructor.name === 'Output', [port]);
     const tooltipPosition = React.useMemo(() => (isOutput ? TooltipPosition.RIGHT : TooltipPosition.LEFT), [isOutput]);
     const visuallyDisabled = React.useMemo(() => {
         const isOccupied = !isOutput && port.connected;
-        const hasDifferentValueType = store.draftConnectionSource?.type !== port.type;
+        const hasDifferentValueType = store.draftConnectionSource && port instanceof Input ? !Connection.isTypeCompatible(store.draftConnectionSource, port) : true;
         const hasSharedNode = store.draftConnectionSource
             ? store.getNodeByPortId(store.draftConnectionSource.id) === store.getNodeByPortId(port.id)
             : false;
